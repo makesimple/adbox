@@ -6,8 +6,6 @@ class TreeNode(object):
 		self.parent = parent
 		self.left = left
 		self.right = right
-		self.visited = False
-
 
 	def is_left_child(self):
 		return self.parent and self.parent.left == self
@@ -51,26 +49,42 @@ class BinarySearchTree(object):
 	def length(self):
 		return self.size
 
-	def in_order_traversal(self):
-		'''print the binary search tree with ascending key order'''
+	def traversal(self, order='inorder'):
+		'''tree traversal with one of the following methods:
+		   1. inorder
+		   2. preorder
+		   3. postorder
+		'''
 		if not self.root:
 			raise ValueError('Empty BST.')
 
-		self._traversal(self.root)
+		if order == 'inorder':
+			self.inorder(self.root)
+		elif order == 'preorder':
+			self.preorder(self.root)
+		elif order == 'postorder':
+			self.postorder(self.root)
+		else:
+			raise ValueError('Wrong input.')
 
-	def _traversal(self, node):
-		if node.left and node.left.visited == False:
-			self._traversal(node.left)
-		elif node.left and node.left.visited == True:
-			node.visited = True
-			print('key: %s, value: %s'%(node.key, node.value))
-			if node.right:
-				self._traversal(node.right)
-		elif not node.left and node.visited == False:
-			node.visited = True
-			print('key: %s, value: %s'%(node.key, node.value))
-			if node.right:
-				self._traversal(node.right)
+	def inorder(self, current):
+		if current:
+			self.inorder(current.left)
+			print('key: %s, value: %s'%(current.key, current.value))
+			self.inorder(current.right)
+
+	def preorder(self, current):
+		if current:
+			print('key: %s, value: %s'%(current.key, current.value))
+			self.preorder(current.left)
+			self.preorder(current.right)
+
+	def postorder(self, current):
+		if current:
+			self.postorder(current.left)
+			self.postorder(current.right)
+			print('key: %s, value: %s'%(current.key, current.value))
+			
 
 	def insert(self, key, value):
 		'''
