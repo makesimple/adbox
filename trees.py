@@ -60,17 +60,17 @@ class BinarySearchTree(object):
 
 	def _traversal(self, node):
 		if node.left and node.left.visited == False:
-			self.traversal_(node.left)
+			self._traversal(node.left)
 		elif node.left and node.left.visited == True:
 			node.visited = True
 			print('key: %s, value: %s'%(node.key, node.value))
 			if node.right:
-				self.traversal_(node.right)
+				self._traversal(node.right)
 		elif not node.left and node.visited == False:
 			node.visited = True
 			print('key: %s, value: %s'%(node.key, node.value))
 			if node.right:
-				self.traversal_(node.right)
+				self._traversal(node.right)
 
 	def insert(self, key, value):
 		'''
