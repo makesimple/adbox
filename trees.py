@@ -59,32 +59,31 @@ class BinarySearchTree(object):
 			raise ValueError('Empty BST.')
 
 		if order == 'inorder':
-			self.inorder(self.root)
+			self._inorder(self.root)
 		elif order == 'preorder':
-			self.preorder(self.root)
+			self._preorder(self.root)
 		elif order == 'postorder':
-			self.postorder(self.root)
+			self._postorder(self.root)
 		else:
 			raise ValueError('Wrong input.')
 
-	def inorder(self, current):
+	def _inorder(self, current):
 		if current:
-			self.inorder(current.left)
+			self._inorder(current.left)
 			print('key: %s, value: %s'%(current.key, current.value))
-			self.inorder(current.right)
+			self._inorder(current.right)
 
-	def preorder(self, current):
+	def _preorder(self, current):
 		if current:
 			print('key: %s, value: %s'%(current.key, current.value))
-			self.preorder(current.left)
-			self.preorder(current.right)
+			self._preorder(current.left)
+			self._preorder(current.right)
 
-	def postorder(self, current):
+	def _postorder(self, current):
 		if current:
-			self.postorder(current.left)
-			self.postorder(current.right)
+			self._postorder(current.left)
+			self._postorder(current.right)
 			print('key: %s, value: %s'%(current.key, current.value))
-			
 
 	def insert(self, key, value):
 		'''
@@ -112,21 +111,25 @@ class BinarySearchTree(object):
 			raise ValueError('Key already exists.')
 
 
-
 	def search(self, key):
-		if self.size == 0:
-			raise ValueError('Empty BST.')
+		if self.root:
+			target = self._search(key, self.root)
+			if target:
+				return target.value
+			else:
+				return None
+		else:
+			return None
 
-		current = self.root
-		while current:
-			if key == current.key:
-				return current.value
-			elif key < current.key:
-				current = current.left
-			elif key > current.key:
-				current = right
-
-		raise ValueError('Key not found.')
+	def _search(self, key, current):
+		if not current:
+			return None
+		elif current.key == key:
+			return current
+		elif key < current.key:
+			self._search(key, current.left)
+		else:
+			self._search(key, current.right)
 
 	def delete(self, key):
 		'''
@@ -135,88 +138,70 @@ class BinarySearchTree(object):
 		if self.size == 0:
 			raise ValueError('Empty BST.')
 
-		# the tree only has the root
-		elif self.size == 1 and self.root.key == key:
-			self.root = None
-			self.size = 0
-		elif self.size == 1 and self.root.key != key:
-			raise ValueError('Key not in the tree.')
+		elif self.size == 1:
+			if self.root.key == key:
+				self.root = None
+				self.size = 0
+			else:
+				raise ValueError('Key not in the BST.')
 
 		else:
-			current = self.root
-			found = False
-			while not Found:
-				if current.key == key:
-					found = True
-					self.size = self.size - 1
+			node_to_remove = self._search(key, self.root)
+			if node_to_remove:
+				self.remove(node_to_remove)
+				self.size = self.size - 1
+			else:
+				raise ValueError('Key no in the BST.')
 
-					# I. the matched node is a leaf
-					if current.is_leaf():
-						parent = current.parent
-						if parent.left == current:
-							parent.update(parent.key, parent.value, None, parent.right)
-						else:
-							parent.update(parent.key, parent.value, parent.left, None)
+	def remove(self, node):
+		'''
+		Remove a node from the tree. There are three situations.
+		'''
+		# the simplest case
+		if node.is_leaf():
+			if node.is_left_child():
+				node.parent.left = None
+			else:
+				node.parent.right = None
 
-					# II. the matched node has a single child, there are six cases
-					if current.has_one_child():
-						if current.is_left_child(): # current node is the left child
-							if current.left:
-								current.left.parent = current.parent
-								current.parent.left = current.left
-							else:
-								current.right.parent = current.parent
-								current.parent.left = current.right
-						elif current.is_right_child():
-							if current.left:
-								current.left.parent = current.parent
-								current.parent.right = current.left
-							else:
-								current.right.parent = current.parent
-								current.parent.right = current.right
-						else: # current node is the root
-							if current.left:
-								root = TreeNode(current.left.key, current.left.value, 
-									current.left.left, current.left.right)
-								self.root = root
-							else:
-								root = TreeNode(current.right.key, current.right.value, 
-									current.right.left, current.right.right)
-								self.root = root
-
-					# III. the matched node has both children
-					# this is the hardest part
-					# 1. find the minimum the value in the right subtree
-					# 2. replace the node to be removed with the founded minimum node
-					# 	 , now the right subtree contains a duplicate
-					# 3. remove the duplicate (note that the minimum node has no left child)
-					else:
-						min_node = self.find_right_subtree_minimum(current)
-						current.update(min_node.key, min_node.value, min_node.left, min_node.right)
-						self.splice_out(min_node)
-
-				elif key < current.key:
-					current = current.left
+		# a slightly tricker case
+		# can be further divide into 6 smaller cases
+		elif node.has_one_child():
+			if node.left:
+				if node.is_left_child()
+					node.left.parent = node.parent
+					node.parent.left = node.left
+				elif node.is_right_child():
+					node.left.parent = node.parent
+					node.parent.right = node.left
+				else: # node is the root
+					node.update(node.left.key, node.left.value, 
+						node.left.left, node.right.right)
+			else:
+				if node.is_left_child():
+					node.right.parent = node.parent
+					node.parent.left = node.right
+				elif node.is_right_child():
+					node.right.parent = node.parent
+					node.parent.right = node.right
 				else:
-					current = current.right
+					node.update(node.right.key, node.right.value, 
+						node.right.left, node.right.right)
 
-			if not found:
-				raise ValueError('Key not in the tree.')
-
-	
-	def find_right_subtree_minimum(self, current):
-		'''find the minimum node of the right subtree of node current'''
-		min_node = current
-		while min_node.left:
-			min_node = min_node.left
-		return min_node
-
-	def splice_out(self, min_node):
-		'''remove the minimum node in the right subtree'''
-		parent = min_node.parent
-		if min_node.is_leaf():
-			parent.update(parent.key, parent.value, None, parent.right)
-		elif min_node.has_one_child() and min_node.is_right_child():
-			parent.update(parent.key, parent.value, parent.left, min_node.right)
+		# the most challenging case, node has two children
+		# find the successor of the node to be removed. replace node with 
+		# the successor and delete the successor.
 		else:
-			parent.update(parent.key, parent.value, min_node.right, parent.right)
+			succ = self._successor(node)
+			self.splice_out(succ)
+			node.key = succ.key
+			node.value = succ.value
+
+
+	def _successor(self, node):
+		pass
+
+	def splice_out(self):
+		pass
+
+
