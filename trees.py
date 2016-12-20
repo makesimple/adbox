@@ -124,12 +124,13 @@ class BinarySearchTree(object):
 	def _search(self, key, current):
 		if not current:
 			return None
-		elif current.key == key:
+
+		if current.key == key:
 			return current
 		elif key < current.key:
-			self._search(key, current.left)
+			return self._search(key, current.left)
 		else:
-			self._search(key, current.right)
+			return self._search(key, current.right)
 
 	def delete(self, key):
 		'''
@@ -151,24 +152,25 @@ class BinarySearchTree(object):
 				self.remove(node_to_remove)
 				self.size = self.size - 1
 			else:
-				raise ValueError('Key no in the BST.')
+				raise ValueError('Key not in the BST.')
 
 	def remove(self, node):
 		'''
 		Remove a node from the tree. There are three situations.
+		A better implementation whould be resursively delete a node.
 		'''
-		# the simplest case
+		# I. the simplest case
 		if node.is_leaf():
 			if node.is_left_child():
 				node.parent.left = None
 			else:
 				node.parent.right = None
 
-		# a slightly tricker case
+		# II. a slightly trickier case
 		# can be further divide into 6 smaller cases
 		elif node.has_one_child():
 			if node.left:
-				if node.is_left_child()
+				if node.is_left_child():
 					node.left.parent = node.parent
 					node.parent.left = node.left
 				elif node.is_right_child():
@@ -188,20 +190,39 @@ class BinarySearchTree(object):
 					node.update(node.right.key, node.right.value, 
 						node.right.left, node.right.right)
 
-		# the most challenging case, node has two children
-		# find the successor of the node to be removed. replace node with 
-		# the successor and delete the successor.
+		# III. the most challenging case, node has two children
+		# find the successor of the node to be removed, which is either the minimum
+		# node in the right subtree or the maximum node in the left subtree.
+		# replace node with the successor and delete the successor.
 		else:
-			succ = self._successor(node)
-			self.splice_out(succ)
-			node.key = succ.key
-			node.value = succ.value
+			key, val = self.find_and_kill(node)
+			node.key = key
+			node.value = val
 
+	def find_and_kill(self, node):
+		'''find the minimum in the right subtree, return its key and value, and
+		wipe it out'''
+		target = node.right
+		while target.left:
+			target = target.left
 
-	def _successor(self, node):
-		pass
+		key = target.key
+		val = target.value
 
-	def splice_out(self):
-		pass
+		if target.is_leaf():
+			if target.is_left_child():
+				target.parent.left = None
+			else:
+				target.parent.right = None
+		else: # target is not a leaf node, it has a child and it must be a right child
+			if target.is_left_child():
+				target.right.parent = target.parent
+				target.parent.left = target.right
+			else:
+				target.right.parent = target.parent
+				target.parent.right = target.right
+
+		return (key, val)
+
 
 
