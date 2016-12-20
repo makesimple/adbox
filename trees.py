@@ -36,7 +36,7 @@ class TreeNode(object):
 		if self.left:
 			self.left.parent = self
 		if self.right:
-			self.right = self
+			self.right.parent = self
 
 
 class BinarySearchTree(object):
@@ -56,9 +56,9 @@ class BinarySearchTree(object):
 		if not self.root:
 			raise ValueError('Empty BST.')
 
-		self.traversal_(self.root)
+		self._traversal(self.root)
 
-	def traversal_(self, node):
+	def _traversal(self, node):
 		if node.left and node.left.visited == False:
 			self.traversal_(node.left)
 		elif node.left and node.left.visited == True:
@@ -73,31 +73,31 @@ class BinarySearchTree(object):
 				self.traversal_(node.right)
 
 	def insert(self, key, value):
-		if not self.root:
-			# if there is no root, put it to the root
-			self.root = TreeNode(key, value)
-			self.size = 1
+		'''
+		insert a node into the BST
+		'''
+		if self.root:
+			self._insert(key, value, self.root)
 		else:
-			# search the right place to place the new node
-			current = self.root
-			found = False
-			while not found:
-				if key == current.key:
-					raise ValueError('Key already exists!')
-				elif key < current.key and not current.left:
-					found = True
-					node = TreeNode(key, value)
-					current.update(current.key, current.value, node, current.right)
-					self.size = self.size + 1
-				elif key < current.key and current.left:
-					current = current.left
-				elif key > current.key and not current.right:
-					found = True
-					node = TreeNode(key, value)
-					current.update(current.key, current.value, current.left, node)
-					self.size = self.size + 1
-				else:
-					current = current.right
+			self.root = TreeNode(key, value)
+
+		self.size = self.size + 1
+
+	def _insert(self, key, value, current):
+		if key < current.key:
+			if current.left:
+				self._insert(key, value, current.left)
+			else:
+				current.left = TreeNode(key, value, parent=current)
+		elif key > current.key:
+			if current.right:
+				self._insert(key, value, current.right)
+			else:
+				current.right = TreeNode(key, value, parent=current)
+		else:
+			raise ValueError('Key already exists.')
+
+
 
 	def search(self, key):
 		if self.size == 0:
