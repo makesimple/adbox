@@ -6,6 +6,8 @@ class TreeNode(object):
 		self.parent = parent
 		self.left = left
 		self.right = right
+		self.bf = 0 # when a new node added to a tree, before rebalancing, 
+					# as a leaf node, its balance factor is always 0
 
 	def is_left_child(self):
 		return self.parent and self.parent.left == self
@@ -48,6 +50,19 @@ class BinarySearchTree(object):
 
 	def length(self):
 		return self.size
+
+	def height(self):
+		'''return the maximum height of the tree.'''
+		if not self.root:
+			return 0
+		else:
+			return self._height(self.root)
+
+	def _height(self, node):
+		if not node:
+			return 0
+		else:
+			return 1 + max(self._height(node.left), self._height(node.right))
 
 	def traversal(self, order='inorder'):
 		'''tree traversal with one of the following methods:
@@ -224,5 +239,106 @@ class BinarySearchTree(object):
 
 		return (key, val)
 
+
+
+class AVLTree(BinarySearchTree):
+	'''
+	A special type of Binary search tree for better algorithm performance.
+	Balance factor = height(left_subtree) - height(right_subtree)
+	A balanced BST has balance factor equals to -1, 0, or 1.
+	The worst case searching time complexity for AVL tree is 1.44logn, where n is 
+	the total number of nodes in the tree.
+
+	The implementation is based on the following tutorial:
+	http://interactivepython.org/runestone/static/pythonds/Trees/AVLTreeImplementation.html
+	'''
+	def _insert(self, key, val, current):
+		if key < current.key:
+			if current.left:
+				self._insert(key, val, current.left)
+			else:
+				current.left = TreeNode(key, val, parent=current)
+				self._update_balance_factor(current.left)
+		elif key > current.key:
+			if current.right:
+				self._insert(key, val, current.right)
+			else:
+				current.right = TreeNode(key, val, parent=current)
+				self._update_balance_factor(current.right)
+
+	def _update_balance_factor(self, node):
+		if node.bf > 1 or node.bf < -1:
+			self.rebalance(node)
+			return
+
+		if not node.parent:
+			if node.is_left_child():
+				node.parent.bf += 1
+			else:
+				node.parent.bf -= 1
+
+			if node.parent.bf != 0:
+				self._update_balance_factor(node.parent)
+
+
+	def rebalance(self, node):
+		if node.bf > 0: # need right rotation
+			if node.left.bf < 0: # if its left child is right heavy,
+								 # first do a left rotation on that child
+				self.left_rotate(node.left)
+			self.right_rotate(node)
+		else:
+			if node.right.bf > 0:
+				self.right_rotate(node.root)
+			self.left_rotate(node)
+
+
+	def left_rotate(self, root):
+		'''left rotation'''
+		pivot = root.right # promote the right child to the root
+		root.right = pivot.left 
+
+		if not pivot.left:
+			pivot.left.parent = root
+
+		pivot.parent = root.parent
+
+		if root.is_root():
+			self.root = pivot
+		else:
+			if root.is_left_child():
+				root.parent.left = pivot
+			else:
+				root.parent.right = pivot
+
+		pivot.left = root
+		root.parent = pivot
+
+		root.bf = root.bf + 1 - min(pivot.bf, 0)
+		pivot.bf = pivot.bf + 1 + max(root.bf, 0)
+
+	def right_rotate(self, root):
+		'''right rotation'''
+		pivot = root.left
+		root.left = pivot.right
+
+		if not pivot.right:
+			pivot.right.parent = root
+
+		pivot.parent = root.parent
+
+		if root.is_root():
+			self.root = pivot
+		else:
+			if root.is_left_child():
+				root.parent.left = pivot
+			else:
+				root.parent.right = pivot
+
+		pivot.right = root
+		root.parent = pivot
+
+		root.bf = root.bf -1 - max(pivot.bf, 0)
+		pivot.bf = pivot.bf - 1 + min(root.bf, 0)
 
 
