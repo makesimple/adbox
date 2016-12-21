@@ -148,3 +148,7 @@ def quick_sort(seq):
 	quick_sort(seq[point+1:])
 
 	return seq
+
+
+def shell_sort(seq):
+	pass

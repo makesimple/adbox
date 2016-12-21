@@ -347,3 +347,16 @@ class AVLTree(BinarySearchTree):
 		pivot.bf = pivot.bf - 1 + min(root.bf, 0)
 
 
+
+class BinaryHeap(object):
+	'''
+	Binary heap
+	The classical data sctructure to implement a priority queue. It allows
+	us both enqueue and dequeue items in O(logn), faster than ordinary list
+	insertion O(n) and list sorting O(nlogn).
+
+	There are two variants: min heap and max heap. Here we implement the min heap.
+	'''
+	pass
+
+

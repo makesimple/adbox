@@ -70,5 +70,5 @@ def rank_search(seq, k):
 		return rank_search(S_R, k - len(S_L) - len(S_M))
 
 
-
-
+def hashing():
+	pass
