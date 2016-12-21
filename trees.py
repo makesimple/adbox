@@ -264,13 +264,15 @@ class AVLTree(BinarySearchTree):
 			else:
 				current.right = TreeNode(key, val, parent=current)
 				self._update_balance_factor(current.right)
+		else:
+			raise ValueError('Key already exists.')
 
 	def _update_balance_factor(self, node):
 		if node.bf > 1 or node.bf < -1:
 			self.rebalance(node)
 			return
 
-		if not node.parent:
+		if node.parent:
 			if node.is_left_child():
 				node.parent.bf += 1
 			else:
@@ -285,11 +287,15 @@ class AVLTree(BinarySearchTree):
 			if node.left.bf < 0: # if its left child is right heavy,
 								 # first do a left rotation on that child
 				self.left_rotate(node.left)
-			self.right_rotate(node)
+				self.right_rotate(node)
+			else:
+				self.right_rotate(node)
 		else:
 			if node.right.bf > 0:
-				self.right_rotate(node.root)
-			self.left_rotate(node)
+				self.right_rotate(node.right)
+				self.left_rotate(node)
+			else:
+				self.left_rotate(node)
 
 
 	def left_rotate(self, root):
@@ -297,7 +303,7 @@ class AVLTree(BinarySearchTree):
 		pivot = root.right # promote the right child to the root
 		root.right = pivot.left 
 
-		if not pivot.left:
+		if pivot.left:
 			pivot.left.parent = root
 
 		pivot.parent = root.parent
@@ -321,7 +327,7 @@ class AVLTree(BinarySearchTree):
 		pivot = root.left
 		root.left = pivot.right
 
-		if not pivot.right:
+		if pivot.right:
 			pivot.right.parent = root
 
 		pivot.parent = root.parent
