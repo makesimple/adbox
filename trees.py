@@ -42,7 +42,6 @@ class TreeNode(object):
 class BinarySearchTree(object):
 	'''
 	Binary search tree.
-	There may be some issues with the deletion implementation!!!
 	'''
 	def __init__(self):
 		self.root = None
