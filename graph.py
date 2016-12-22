@@ -9,11 +9,12 @@ class Vertex(object):
 	def __init__(self, key):
 		self.id = key
 		self.connections = {} # the dictionary to store neighbor information
-		self.degree = 0
 
-	def add_neighbor(self, nbr, w=1):
+	def add_neighbor(self, nbr, w=1): # nbr is also a Vertex instance
 		self.connections[nbr] = w
-		self.degree += 1
+
+	def get_neigbhors(self):
+		return self.connections.keys()
 
 	def __str__(self):
 		return str(self.id) + 'connected to' + str([x.id for x in self.connections])
@@ -28,7 +29,7 @@ class Graph(object):
 		self.size = 0 
 
 	def add_vertex(self, key):
-		if key in self.vertex_list.keys():
+		if key in self.vertex_list:
 			raise ValueError('Vertex already exists.')
 
 		new_vertex = Vertex(key)
@@ -36,11 +37,17 @@ class Graph(object):
 		self.size += 1
 
 	def add_edge(self, f, t, w):
-		if f not in self.vertex_list.keys():
+		if f not in self.vertex_list:
 			self.add_vertex(f)
-		if t not in self.vertex_list.keys():
+		if t not in self.vertex_list:
 			self.add_vertex(t)
 
 		self.vertex_list[f].add_neighbor(self.vertex_list[t], w)
+
+	def get_vertices(self):
+		return self.vertex_list.keys()
+
+	def __iter__(self):
+		return iter(self.vertex_list.values())
 
 
