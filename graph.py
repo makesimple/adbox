@@ -62,28 +62,57 @@ class Graph(object):
 	def __iter__(self):
 		return iter(self.vertex_list.values())
 
-
 	def bfs_traversal(self, st):
 		'''
 		Breadth first search traversal.
+		Use queue for this task.
 		'''
 		for v in self.vertex_list.values():
 			v.visited = False
 
-		d = deque()
+		q = deque() # queue
 		v = self.search_vertex(st)
 		v.visited = True
-		d.appendleft(v)
+		q.appendleft(v)
 		print(st)
 
-		while d:
-			v = d[len(d)-1]
+		while q:
+			v = q[len(q)-1]
 			for nbr in v.connections:
 				if nbr.visited == False:
 					nbr.visited = True
-					d.appendleft(nbr)
+					q.appendleft(nbr)
 					print(nbr.id)
-			d.pop()
+			q.pop()
+
+	def dfs_traversal(self, st):
+		'''
+		Depth first search traveral.
+		Use stack for this task.
+		'''
+		for v in self.vertex_list.values():
+			v.visited = False
+
+		s = deque() # stack
+		v = self.search_vertex(st)
+		v.visited = True
+		s.append(v)
+		print(st)
+
+		while s:
+			v = s[len(s)-1]
+			all_visited = True # assume all v's neighbors have been visited
+			for nbr in v.connections:
+				if nbr.visited == False:
+					nbr.visited = True
+					s.append(nbr)
+					print(nbr.id)
+					all_visited = False
+					break
+			if all_visited == True:
+				s.pop()
+
+
 
 
 
