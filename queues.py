@@ -13,7 +13,7 @@ class BinaryHeap(object):
 	to implement as it can be implemented by using just list.
 	'''
 	def __init__(self):
-		self.queue = [0]
+		self.queue = [[0, '']]
 		self.size = 0
 
 	def length(self):
@@ -23,18 +23,20 @@ class BinaryHeap(object):
 		if self.size == 0:
 			return
 		for i in range(1, self.size+1):
-			print(self.queue[i])
+			print('key: %s, value: %s'%(self.queue[i][0], self.queue[i][1]))
 
 	def peek_min(self):
-		return self.queue[1]
-		
-	def insert(self, key):
 		if self.size == 0:
-			self.queue = self.queue + [key]
+			raise ValueError('Empty Binary Heap.')
+		return (self.queue[1][0], self.queue[1][1])
+
+	def insert(self, key, value=''):
+		if self.size == 0:
+			self.queue = self.queue + [[key, value]]
 			self.size = 1
 			return
 		else:
-			self.queue = self.queue + [key]
+			self.queue = self.queue + [[key, value]]
 			self.size += 1
 			self._swap_up(self.size)
 
@@ -56,14 +58,16 @@ class BinaryHeap(object):
 		if self.size == 0:
 			raise ValueError('Empty Binary Heap.')
 
+		hp_min = (self.queue[1][0], self.queue[1][1])
 		if self.size == 1:
-			self.queue = [0]
+			self.queue = [[0, '']]
 			self.size = 0
 		else:
 			self.queue[1] = self.queue[self.size]
 			self.size -= 1
 			self._swap_down(1)
 
+		return hp_min
 
 	def _swap_down(self, i):
 		if 2*i > self.size: # has no child, reached the bottom level
@@ -83,7 +87,7 @@ class BinaryHeap(object):
 			return lc, 2*i
 		else:
 			rc = self.queue[2*i+1]
-			if lc < rc:
+			if lc[0] < rc[0]:
 				return lc, 2*i
 			else:
 				return rc, 2*i+1
