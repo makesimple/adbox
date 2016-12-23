@@ -10,7 +10,9 @@ II. sorting
 	4. merge sort
 	5. quick sort
 	6. shell sort
-III. linked list
+III. queues
+	1. Priority Queue (Binary Heap)
+III. linked lists
 	1. simple linked list
 	2. doubly linked list
 	3. circular linked list
