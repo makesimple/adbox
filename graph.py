@@ -1,6 +1,7 @@
 # credits: http://interactivepython.org/runestone/static/pythonds/index.html
 
 from collections import deque
+from Queue import ProrityQueue
 
 class Vertex(object):
 	'''
@@ -31,7 +32,7 @@ class Graph(object):
 	'''
 	def __init__(self):
 		self.vertex_list = {}
-		self.size = 0 
+		self.size = 0
 
 	def add_vertex(self, key):
 		if key in self.vertex_list:
@@ -41,13 +42,15 @@ class Graph(object):
 		self.vertex_list[key] = new_vertex
 		self.size += 1
 
-	def add_edge(self, f, t, w=1):
+	def add_edge(self, f, t, w=1, directed=False):
 		if f not in self.vertex_list:
 			self.add_vertex(f)
 		if t not in self.vertex_list:
 			self.add_vertex(t)
 
 		self.vertex_list[f].add_neighbor(self.vertex_list[t], w)
+		if directed == False:
+			self.vertex_list[t].add_neighbor(self.vertex_list[f], w)
 
 	def get_vertices(self):
 		'''return the keys of all vertex objects'''
@@ -111,6 +114,24 @@ class Graph(object):
 					break
 			if all_visited == True:
 				s.pop()
+
+	def prim_mst(self):
+		'''
+		Prim's algorithm for finding a minimum spanning tree of an undirected graph.
+		'''
+		if self.size == 0:
+			raise ValueError('Empty graph.')
+		if self.size == 1:
+			return self.vertex_list.keys()
+
+		S.set(list(self.vertex_list.keys())[0:1]) 
+		X = set() # edges of the MST
+		tree_size = 0 # number of edges
+
+		while tree_size < self.size-1:
+			
+
+
 
 
 
