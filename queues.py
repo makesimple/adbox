@@ -52,14 +52,16 @@ class BinaryHeap(object):
 		swap it with its parent if it is smaller than its parent, repeat until Binary Heap 
 		property holds
 		'''
+		hi = HeapItem(key, value)
 		if self.size == 0:
-			self.queue = self.queue + [HeapItem(key, value)]
+			self.queue = self.queue + [hi]
 			self.size = 1
 			return
 		else:
-			self.queue = self.queue + [HeapItem(key, value)]
+			self.queue = self.queue + [hi]
 			self.size += 1
 			self._swap_up(self.size)
+		return hi
 
 	def _swap_up(self, i):
 		if i == 1:
