@@ -1,7 +1,8 @@
 # credits: http://interactivepython.org/runestone/static/pythonds/index.html
 
 from collections import deque
-from Queue import ProrityQueue
+import sys
+from queues import HeapItem, BinaryHeap
 
 class Vertex(object):
 	'''
@@ -121,11 +122,30 @@ class Graph(object):
 		'''
 		if self.size == 0:
 			raise ValueError('Empty graph.')
-		if self.size == 1:
-			return self.vertex_list.keys()
-
 		
-			
+		pq = BinaryHeap()
+		for v in self.vertex_list.values():
+			v.pred = None
+			v.dist = sys.maxsize
+			pq.insert(sys.maxsize, v)
+
+		while not pq.is_empty():
+			v = pq.del_min().value # a vertex object
+			for nbr in v.connections:
+				if v.connections[nbr] < nbr.dist and nbr in pq: # waiting for implementation
+																# operatior overload ???
+					nbr.pred = v
+					nbr.dist = v.connections[nbr]
+					pq.decrease_key(nbr.dist, nbr) # waiting for implementation
+					
+	def kruskal_mst(self):
+		'''
+		Kruskal's algorithm for finding a minimum spanning tree.
+		'''
+		pass
+
+	def dijkstra(self):
+		pass
 
 
 
