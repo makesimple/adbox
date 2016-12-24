@@ -135,6 +135,10 @@ class Graph(object):
 		into two sets: S and V - S, where S consists of the nodes of the partial mst, 
 		find the lightest edge e connecting S and V - S, and grow the tree by one 
 		edge: X = X union {e}, S = S union {endpoint of e that outside of S}
+
+		Prim's algorithm time complexity depends on its implementation method.
+		Here implement it using priority queue and adjacency list, which makes a time compelxity 
+		O((|v|+|e|log|v|)) = O(|e|log|v|).
 		'''
 		if self.size == 0:
 			raise ValueError('Empty graph.')
