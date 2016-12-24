@@ -133,5 +133,8 @@ class BinaryHeap(object):
 		Change the key of value to new_key (decrease)
 		currently, this method can only be used in graph.py prim_mst method.
 		'''
+		if new_key > hi.key:
+			raise ValueError('New key should be smaller than the original key.')
+			
 		hi.key = new_key
 		self._swap_up(hi.pos)

@@ -142,17 +142,15 @@ class Graph(object):
 		pq = BinaryHeap()
 		for v in self.vertex_list.values():
 			v.pred = None
-			v.dist = sys.maxsize
 			v.hi = pq.insert(sys.maxsize, v) # a reference to the heap item
 
 		while not pq.is_empty():
 			v = pq.del_min().value # a vertex object
 			for nbr in v.connections:
 				if nbr.hi.pos:
-					if v.connections[nbr] < nbr.dist: # nbr is a neighbor and it is in the queue
+					if v.connections[nbr] < nbr.hi.key: # nbr is a neighbor and it is in the queue
 						nbr.pred = v
-						nbr.dist = v.connections[nbr]
-						pq.decrease_key(nbr.dist, nbr.hi)
+						pq.decrease_key(v.connections[nbr], nbr.hi)
 
 
 	def kruskal_mst(self):
