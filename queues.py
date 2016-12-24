@@ -1,4 +1,10 @@
 
+class HeapItem(object):
+	'''Item in a heap'''
+	def __init__(self, key, value):
+		self.key = key
+		self.value = value
+
 
 class BinaryHeap(object):
 	'''
@@ -13,8 +19,14 @@ class BinaryHeap(object):
 	to implement as it can be implemented by using just list.
 	'''
 	def __init__(self):
-		self.queue = [[0, '']]
+		self.queue = [HeapItem(0, '')] # just to occupy a place for convenience in position calculation
 		self.size = 0
+
+	def is_empty(self):
+		if self.size == 0:
+			return True
+		else:
+			return False
 
 	def length(self):
 		return self.size
@@ -23,20 +35,24 @@ class BinaryHeap(object):
 		if self.size == 0:
 			return
 		for i in range(1, self.size+1):
-			print('key: %s, value: %s'%(self.queue[i][0], self.queue[i][1]))
+			print('key: %s, value: %s'%(self.queue[i].key, self.queue[i].value))
 
 	def peek_min(self):
 		if self.size == 0:
 			raise ValueError('Empty Binary Heap.')
-		return (self.queue[1][0], self.queue[1][1])
+		return (self.queue[1].key, self.queue[1].value)
+
+	def search_key(self, key):
+		'''returns the pos and value'''
+		pass
 
 	def insert(self, key, value=''):
 		if self.size == 0:
-			self.queue = self.queue + [[key, value]]
+			self.queue = self.queue + [HeapItem(key, value)]
 			self.size = 1
 			return
 		else:
-			self.queue = self.queue + [[key, value]]
+			self.queue = self.queue + [HeapItem(key, value)]
 			self.size += 1
 			self._swap_up(self.size)
 
@@ -46,7 +62,7 @@ class BinaryHeap(object):
 
 		parent = self.queue[i // 2]
 		child = self.queue[i]
-		if parent > child:
+		if parent.key > child.key:
 			tmp = child
 			self.queue[i] = parent
 			self.queue[i // 2] = tmp
@@ -58,9 +74,9 @@ class BinaryHeap(object):
 		if self.size == 0:
 			raise ValueError('Empty Binary Heap.')
 
-		hp_min = (self.queue[1][0], self.queue[1][1])
+		hp_min = self.queue[1]
 		if self.size == 1:
-			self.queue = [[0, '']]
+			self.queue = [HeapItem(0, '')]
 			self.size = 0
 		else:
 			self.queue[1] = self.queue[self.size]
@@ -74,9 +90,12 @@ class BinaryHeap(object):
 			return
 
 		mc, pos = self.min_child(i)
-		self.queue[pos] = self.queue[i]
-		self.queue[i] = mc
-		self._swap_down(pos)
+		if mc.key < self.queue[i].key:
+			self.queue[pos] = self.queue[i]
+			self.queue[i] = mc
+			self._swap_down(pos)
+		else:
+			return
 
 
 	def min_child(self, i):
@@ -87,7 +106,7 @@ class BinaryHeap(object):
 			return lc, 2*i
 		else:
 			rc = self.queue[2*i+1]
-			if lc[0] < rc[0]:
+			if lc.key < rc.key:
 				return lc, 2*i
 			else:
 				return rc, 2*i+1
