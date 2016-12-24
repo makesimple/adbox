@@ -47,6 +47,11 @@ class BinaryHeap(object):
 		pass
 
 	def insert(self, key, value=''):
+		'''
+		To insert a new node into the Binary Heap, first hang it at the last of the heap,
+		swap it with its parent if it is smaller than its parent, repeat until Binary Heap 
+		property holds
+		'''
 		if self.size == 0:
 			self.queue = self.queue + [HeapItem(key, value)]
 			self.size = 1
@@ -71,6 +76,10 @@ class BinaryHeap(object):
 			return
 
 	def del_min(self):
+		'''
+		To delete the minimum node from the heap, move the last node to the root of the heap.
+		Swap it with its minimum child, repeat until Binary Heap property holds.
+		'''
 		if self.size == 0:
 			raise ValueError('Empty Binary Heap.')
 

@@ -65,7 +65,7 @@ class BinarySearchTree(object):
 
 	def traversal(self, order='inorder'):
 		'''tree traversal with one of the following methods:
-		   1. inorder
+		   1. inorder left --> parent --> right, results in an ascending order
 		   2. preorder
 		   3. postorder
 		'''

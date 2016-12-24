@@ -70,6 +70,12 @@ class Graph(object):
 		'''
 		Breadth first search traversal.
 		Use queue for this task.
+		0. Mark every vertex as unvisited
+		1. Initialize the empty queue with st, the starting vertex, mark it as visited
+		2. Choose the current node as the right most vertex in the queue
+		3. Visit its neighbor who has never been visited before, mark it as visited
+		4. Repeat step 3 until there is no unvisited neighbor
+		5. Pop a vertex from the queue, and go to step 2; Stop algorithm is queue is empty
 		'''
 		for v in self.vertex_list.values():
 			v.visited = False
@@ -93,6 +99,12 @@ class Graph(object):
 		'''
 		Depth first search traveral.
 		Use stack for this task.
+		0. Mark every vertex as unvisited
+		1. Initialize the empty stack with st, the starting vertex, mark i as visited
+		2. Choose the top vertex as the current vertex
+		3. Visit one of the current vertex's neighbors, whose state is unvisited, mark it as visited
+		4. Go to step 2, if the current vertex has no unvisited neighbor, pop the stack, go to 2 again
+		5. Stop if the stack is empty
 		'''
 		for v in self.vertex_list.values():
 			v.visited = False
@@ -119,6 +131,10 @@ class Graph(object):
 	def prim_mst(self):
 		'''
 		Prim's algorithm for finding a minimum spanning tree of an undirected graph.
+		At each time, the edge set of the partial mst is X, divide the graph G = (V, E) 
+		into two sets: S and V - S, where S consists of the nodes of the partial mst, 
+		find the lightest edge e connecting S and V - S, and grow the tree by one 
+		edge: X = X union {e}, S = S union {endpoint of e that outside of S}
 		'''
 		if self.size == 0:
 			raise ValueError('Empty graph.')
@@ -137,7 +153,7 @@ class Graph(object):
 					nbr.pred = v
 					nbr.dist = v.connections[nbr]
 					pq.decrease_key(nbr.dist, nbr) # waiting for implementation
-					
+
 	def kruskal_mst(self):
 		'''
 		Kruskal's algorithm for finding a minimum spanning tree.
