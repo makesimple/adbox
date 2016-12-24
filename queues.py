@@ -4,7 +4,7 @@ class HeapItem(object):
 	def __init__(self, key, value, pos=None):
 		self.key = key
 		self.value = value
-		self.pos = pos
+		self.pos = pos # position of the heap item in the Binary Heap (Priority Queue)
 
 
 class BinaryHeap(object):
@@ -53,14 +53,13 @@ class BinaryHeap(object):
 		swap it with its parent if it is smaller than its parent, repeat until Binary Heap 
 		property holds
 		'''
-		hi = HeapItem(key, value, self.size+1)
+		self.size += 1
+		hi = HeapItem(key, value, self.size)
 		if self.size == 0:
 			self.queue = self.queue + [hi]
-			self.size = 1
 			return
 		else:
 			self.queue = self.queue + [hi]
-			self.size += 1
 			self._swap_up(self.size)
 		return hi
 
@@ -94,6 +93,7 @@ class BinaryHeap(object):
 			self.size = 0
 		else:
 			self.queue[1] = self.queue[self.size]
+			self.queue[1].pos = 1
 			self.size -= 1
 			self._swap_down(1)
 
@@ -128,10 +128,10 @@ class BinaryHeap(object):
 			else:
 				return rc, 2*i+1
 
-	def decrease_key(self, new_key, value):
+	def decrease_key(self, new_key, hi):
 		'''
 		Change the key of value to new_key (decrease)
 		currently, this method can only be used in graph.py prim_mst method.
 		'''
-		value.hi.key = new_key
-		self._swap_up(value.hi.pos)
+		hi.key = new_key
+		self._swap_up(hi.pos)

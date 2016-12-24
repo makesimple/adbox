@@ -148,10 +148,11 @@ class Graph(object):
 		while not pq.is_empty():
 			v = pq.del_min().value # a vertex object
 			for nbr in v.connections:
-				if v.connections[nbr] < nbr.dist and not nbr.hi.pos # nbr is a neighbor and it is in the queue
-					nbr.pred = v
-					nbr.dist = v.connections[nbr]
-					pq.decrease_key(nbr.dist, nbr) # waiting for implementation
+				if nbr.hi.pos:
+					if v.connections[nbr] < nbr.dist: # nbr is a neighbor and it is in the queue
+						nbr.pred = v
+						nbr.dist = v.connections[nbr]
+						pq.decrease_key(nbr.dist, nbr.hi)
 
 
 	def kruskal_mst(self):
