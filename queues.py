@@ -1,9 +1,10 @@
 
 class HeapItem(object):
 	'''Item in a heap'''
-	def __init__(self, key, value):
+	def __init__(self, key, value, pos=None):
 		self.key = key
 		self.value = value
+		self.pos = pos
 
 
 class BinaryHeap(object):
@@ -52,7 +53,7 @@ class BinaryHeap(object):
 		swap it with its parent if it is smaller than its parent, repeat until Binary Heap 
 		property holds
 		'''
-		hi = HeapItem(key, value)
+		hi = HeapItem(key, value, self.size+1)
 		if self.size == 0:
 			self.queue = self.queue + [hi]
 			self.size = 1
@@ -73,6 +74,8 @@ class BinaryHeap(object):
 			tmp = child
 			self.queue[i] = parent
 			self.queue[i // 2] = tmp
+			self.queue[i].pos = i
+			self.queue[i // 2].pos = i // 2
 			self._swap_up(i//2)
 		else:
 			return
@@ -94,6 +97,7 @@ class BinaryHeap(object):
 			self.size -= 1
 			self._swap_down(1)
 
+		hp_min.pos = None
 		return hp_min
 
 	def _swap_down(self, i):
@@ -104,13 +108,15 @@ class BinaryHeap(object):
 		if mc.key < self.queue[i].key:
 			self.queue[pos] = self.queue[i]
 			self.queue[i] = mc
+			self.queue[pos].pos = pos
+			self.queue[i].pos = i
 			self._swap_down(pos)
 		else:
 			return
 
 
 	def min_child(self, i):
-		'''return the key and position of the minimum child'''
+		'''Return the key and position of the minimum child.'''
 		lc = self.queue[2*i]
 
 		if 2*i+1 > self.size: # has only the left child
@@ -122,4 +128,10 @@ class BinaryHeap(object):
 			else:
 				return rc, 2*i+1
 
-
+	def decrease_key(self, new_key, value):
+		'''
+		Change the key of value to new_key (decrease)
+		currently, this method can only be used in graph.py prim_mst method.
+		'''
+		value.hi.key = new_key
+		self._swap_up(value.hi.pos)
