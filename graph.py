@@ -124,11 +124,7 @@ class Graph(object):
 		if self.size == 1:
 			return self.vertex_list.keys()
 
-		S.set(list(self.vertex_list.keys())[0:1]) 
-		X = set() # edges of the MST
-		tree_size = 0 # number of edges
-
-		while tree_size < self.size-1:
+		
 			
 
 
