@@ -152,3 +152,7 @@ def quick_sort(seq):
 
 def shell_sort(seq):
 	pass
+
+
+def heap_sort(seq):
+	pass

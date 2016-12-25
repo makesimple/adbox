@@ -2,7 +2,7 @@
 
 from collections import deque
 import sys
-from queues import HeapItem, BinaryHeap
+from heaps import HeapItem, BinaryHeap
 
 class Vertex(object):
 	'''
@@ -130,7 +130,7 @@ class Graph(object):
 
 	def prim_mst(self):
 		'''
-		Prim's algorithm for finding a minimum spanning tree of an undirected graph.
+		Prim's algorithm for finding a minimum spanning tree in an UNDIRECTED graph.
 		At each time, the edge set of the partial mst is X, divide the graph G = (V, E) 
 		into two sets: S and V - S, where S consists of the nodes of the partial mst, 
 		find the lightest edge e connecting S and V - S, and grow the tree by one 
@@ -159,7 +159,7 @@ class Graph(object):
 
 	def kruskal_mst(self):
 		'''
-		Kruskal's algorithm for finding a minimum spanning tree.
+		Kruskal's algorithm for finding a minimum spanning tree in an UNDIRECTED graph.
 		'''
 		pass
 
