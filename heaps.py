@@ -47,6 +47,10 @@ class BinaryHeap(object):
 		'''returns the pos and value'''
 		pass
 
+	def make_heap(self, seq):
+		'''make a heap. in many cases, this is significant faster than insertion'''
+		pass
+
 	def insert(self, key, value=''):
 		'''
 		To insert a new node into the Binary Heap, first hang it at the last of the heap,
@@ -139,3 +143,11 @@ class BinaryHeap(object):
 			
 		hi.key = new_key
 		self._swap_up(hi.pos)
+
+
+class FibonacciHeap(object):
+	pass
+
+
+class DAryHeap(object):
+	pass

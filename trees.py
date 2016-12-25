@@ -101,7 +101,8 @@ class BinarySearchTree(object):
 
 	def insert(self, key, value):
 		'''
-		insert a node into the BST
+		Insert a node into the BST
+		To insert a node, resursively find its proper position, hang it there
 		'''
 		if self.root:
 			self._insert(key, value, self.root)
@@ -149,6 +150,10 @@ class BinarySearchTree(object):
 	def delete(self, key):
 		'''
 		Delection is much more complex than other methods.
+		There are three cases need to be considered.
+		I. leaf node
+		II. node with single child
+		III. node with both child
 		'''
 		if self.size == 0:
 			raise ValueError('Empty BST.')
@@ -345,3 +350,7 @@ class AVLTree(BinarySearchTree):
 
 		root.bf = root.bf -1 - max(pivot.bf, 0)
 		pivot.bf = pivot.bf - 1 + min(root.bf, 0)
+
+
+	def delete(self, key):
+		pass

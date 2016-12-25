@@ -137,7 +137,7 @@ class Graph(object):
 		edge: X = X union {e}, S = S union {endpoint of e that outside of S}
 
 		Prim's algorithm time complexity depends on its implementation method.
-		Here implement it using priority queue and adjacency list, which makes a time compelxity 
+		Here implement it using Binary Heap and adjacency list, which makes a time compelxity 
 		O((|v|+|e|log|v|)) = O(|e|log|v|).
 		'''
 		if self.size == 0:
@@ -163,9 +163,45 @@ class Graph(object):
 		'''
 		pass
 
-	def dijkstra(self):
-		pass
+	def dijkstra(self, s):
+		'''
+		Dijkstra algorithm for finding the shortest path from s to any other vertex in the graph.
+		Using Binary Heap, the implementation is very similar to Prim's algorithm.
 
+		At time t, let S denote the set of nodes whose shortest paths have been determined, 
+		a next candidate for S is any node in V - S, such that their previous nodes all belong to S,
+		choose the one v that has the shortest path length from s to it, 
+		merge S = S union {v}.
+
+		Dijkstra algorithm's running time depends on the priority queue implementation method.
+		Here we implement it using Binary Heap and adjacency list, which makes a time complexity
+		O((|V|+|E|)log |V|)
+		'''
+		if self.size == 0:
+			raise ValueError('Empty graph.')
+
+		if s not in self.vertex_list:
+			raise ValueError('Vertex does not exist.')
+
+		pq = BinaryHeap()
+		for v_k in self.vertex_list:
+			v = self.vertex_list[v_k]
+			v.pred = None
+			if v_k == s:
+				v.hi = pq.insert(0, v)
+			else:
+				v.hi = pq.insert(sys.maxsize, v)
+
+
+		while not pq.is_empty():
+			m_hi = pq.del_min()
+			k = m_hi.key
+			v = m_hi.value
+			for nbr in v.connections:
+				if nbr.hi.pos:
+					if v.connections[nbr] + k < nbr.hi.key:
+						nbr.pred = v
+						pq.decrease_key(v.connections[nbr] + k, nbr.hi)
 
 
 
