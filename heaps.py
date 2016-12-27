@@ -74,7 +74,6 @@ class BinaryHeap(object):
 		parent = self.queue[i // 2]
 		child = self.queue[i]
 		if parent.key > child.key:
-			#print('swap up%s' %child.key)
 			tmp = child
 			self.queue[i] = parent
 			self.queue[i // 2] = tmp
