@@ -137,7 +137,7 @@ class Graph(object):
 		edge: X = X union {e}, S = S union {endpoint of e that outside of S}
 
 		Prim's algorithm time complexity depends on its implementation method.
-		Here implement it using Binary Heap and adjacency list, which makes a time compelxity 
+		Here we implement it using Binary Heap and adjacency list, which makes a time compelxity 
 		O((|v|+|e|log|v|)) = O(|e|log|v|).
 		'''
 		if self.size == 0:
@@ -202,6 +202,11 @@ class Graph(object):
 					if v.connections[nbr] + k < nbr.hi.key:
 						nbr.pred = v
 						pq.decrease_key(v.connections[nbr] + k, nbr.hi)
+
+
+
+	def strongly_connected(self):
+		pass
 
 
 
