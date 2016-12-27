@@ -37,14 +37,11 @@ class Huffman(object):
 
 		pq = BinaryHeap()
 		for symb, f in self.symb_f.items():
-			#print('f:%s' %f)
 			pq.insert(f, [symb])
 
 		while pq.length() > 1:
 			m1 = pq.del_min()
 			m2 = pq.del_min()
-
-			print(m1.key, m2.key)
 
 			for symb in m1.value:
 				self.symb_code[symb] = '0' + self.symb_code[symb]
@@ -58,8 +55,25 @@ class Huffman(object):
 		for symb, code in self.symb_code.items():
 			self.code_symb[code] = symb
 
-	def decode(self, txt):
-		pass
+		code = ''
+		for symb in txt:
+			code += self.symb_code[symb]
+		return code
+
+	def decode(self, code):
+		'''this is not very efficient
+		   to improve the efficiency, use the encoding tree, read the code one by one, whenever encounter 0, 
+		   go to the left child of the current node, 1 to the right child, until reach the leaf, translate the
+		   code to the symbol in that leaf, then go back to the root. repeat until code is exhausted.
+		'''
+		txt = ''
+		code_ = ''
+		for ch in code:
+			code_ += ch
+			if code_ in self.code_symb:
+				txt += self.code_symb[code_]
+				code_ = ''
+		return txt
 
 
 
