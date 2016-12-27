@@ -25,3 +25,6 @@ VI. graph
 	1. Traversal
 	2. Minimum spanning tree
 	3. Shortest path
+VII. greedy algorithms
+	1. greedy algorithms in graph (mst, shortest path)
+	2. Huffman coding
