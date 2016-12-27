@@ -10,10 +10,6 @@ II. sorting
 	4. merge sort
 	5. quick sort
 	6. shell sort
-III. heaps
-	1. Binary heap
-	2. Fibonacci heap
-	3. d-ary heap
 III. linked lists
 	1. simple linked list
 	2. doubly linked list
@@ -21,8 +17,11 @@ III. linked lists
 IV. trees
 	1. binary search tree
 	2. AVL tree
-	3. binary heap
-V. graph
+V. heaps
+	1. Binary heap
+	2. Fibonacci heap
+	3. d-ary heap
+VI. graph
 	1. Traversal
 	2. Minimum spanning tree
 	3. Shortest path
