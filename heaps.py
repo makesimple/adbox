@@ -59,7 +59,7 @@ class BinaryHeap(object):
 		'''
 		self.size += 1
 		hi = HeapItem(key, value, self.size)
-		if self.size == 0:
+		if self.size == 1:
 			self.queue = self.queue + [hi]
 			return
 		else:
@@ -74,6 +74,7 @@ class BinaryHeap(object):
 		parent = self.queue[i // 2]
 		child = self.queue[i]
 		if parent.key > child.key:
+			#print('swap up%s' %child.key)
 			tmp = child
 			self.queue[i] = parent
 			self.queue[i // 2] = tmp
@@ -99,6 +100,7 @@ class BinaryHeap(object):
 			self.queue[1] = self.queue[self.size]
 			self.queue[1].pos = 1
 			self.size -= 1
+			self.queue = self.queue[:self.size+1]
 			self._swap_down(1)
 
 		hp_min.pos = None
