@@ -8,7 +8,7 @@ def _topological_sorting_util(v, linear_ord):
 		if not nbr.visited:
 			_topological_sorting_util(nbr, linear_ord)
 
-	linear_ord.insert(0, v) # insert at the front of the list
+	linear_ord.append(v) # list as stack
 
 
 def topological_sorting(dag):
@@ -33,3 +33,19 @@ def shortest_path_in_dag(dag, s):
 	'''
 	Find shortest paths from s to all vertices in the dag.
 	'''
+	st = topological_sorting(dag)
+
+	dist = {}
+	for v in dag.vertex_list.values():
+		dist[v] = sys.maxsize
+
+	dist[dag.vertex_list[s]] = 0
+
+	while st:
+		v = st.pop()
+
+		for nbr, w in v.connections.items():
+			if dist[v] + w < dist[nbr]:
+				dist[nbr] = dist[v] + w
+
+	return dist
