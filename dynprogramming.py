@@ -32,6 +32,7 @@ def topological_sorting(dag):
 def shortest_path_in_dag(dag, s):
 	'''
 	Find shortest paths from s to all vertices in the dag.
+	time complexity: O(|V| + |E|)
 	'''
 	st = topological_sorting(dag)
 
