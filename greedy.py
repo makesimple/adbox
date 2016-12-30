@@ -1,6 +1,8 @@
 from heaps import HeapItem, BinaryHeap
 from collections import defaultdict
 
+
+# I. Huffman encoding
 class Huffman(object):
 	'''
 	Huffman encoding.
@@ -62,9 +64,10 @@ class Huffman(object):
 
 	def decode(self, code):
 		'''this is not very efficient
-		   to improve the efficiency, use the encoding tree, read the code one by one, whenever encounter 0, 
-		   go to the left child of the current node, 1 to the right child, until reach the leaf, translate the
-		   code to the symbol in that leaf, then go back to the root. repeat until code is exhausted.
+		   to improve the efficiency, use the encoding tree, read the code one by one, 
+		   whenever encounter 0, go to the left child of the current node, 1 to the 
+		   right child, until reach the leaf, translate the code to the symbol in that 
+		   leaf, then go back to the root. repeat until code is exhausted.
 		'''
 		txt = ''
 		code_ = ''
@@ -75,6 +78,11 @@ class Huffman(object):
 				code_ = ''
 		return txt
 
+
+
+# II. Set cover problem
+def set_cover():
+	pass
 
 
 
