@@ -204,6 +204,13 @@ class Graph(object):
 						pq.decrease_key(v.connections[nbr] + k, nbr.hi)
 
 
+	def bellman_ford(self, s):
+		'''shortest path in graph with negative edge weight
+			repeat |V| times to check if there is any negative cycle!!!
+			https://people.eecs.berkeley.edu/~vazirani/algorithms/chap4.pdf 4.6.2
+		'''
+		pass
+
 
 	def strongly_connected(self):
 		pass
