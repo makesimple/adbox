@@ -1,6 +1,7 @@
 
 from graph import *
 
+# I. shortest paths in DAG
 def _topological_sorting_util(v, linear_ord):
 	v.visited = True
 
@@ -50,3 +51,22 @@ def shortest_path_in_dag(dag, s):
 				dist[nbr] = dist[v] + w
 
 	return dist
+
+
+
+# II. edit distance
+def edit_distance(str1, str2):
+	'''
+	Find the edit distance of two strings.
+	time complexity 0(mn)
+	'''
+	m = len(str1)
+	n = len(str2)
+
+	E = [[0 for j in range(n)] for i in range(m)]
+
+	for i in range(1, m):
+		for j in range(1, n):
+			E[i][j] = min(E[i-1][j]+1, E[i][j-1]+1, E[i-1][j-1]+1-(str1[i]==str2[j]))
+
+	return E[m-1][n-1]
