@@ -59,7 +59,11 @@ def shortest_path_in_dag(dag, s):
 def edit_distance(str1, str2):
 	'''
 	Find the edit distance of two strings.
-	time complexity 0(mn)
+	
+	Subproblem:
+	E(i, j) = min{1+E(i-1, j), 1+E(i, j-1), diff(str1[i], str2[j]) + E(i-1, j-1)}
+
+	Time complexity 0(mn)
 	'''
 	m = len(str1) + 1
 	n = len(str2) + 1
@@ -92,9 +96,14 @@ def knapsack_with_repition(W, ws, vs):
 		ws: weights, a list
 		vs: values, a list
 
+	Subproblem:
+	K[w] is the maximum value achievable when the knapsack's weight limit is w
+	K[w] = max(K[w - ws[i]] + vs[i]: vs[i] <= w)
+
 	Time complexity: O(nW), where n is the number of distinct items.
 	'''
 	n = len(ws)
+
 	K = [0 for i in range(W+1)]
 	for w in range(1, W+1):
 		sub = []
@@ -105,4 +114,29 @@ def knapsack_with_repition(W, ws, vs):
 			K[w] = max(sub)
 		else:
 			K[w] = K[w-1]
+
 	return K[W]
+
+
+def knapsack_without_repition(W, ws, vs):
+	'''
+	The burglar can pick an item no more than once.
+
+	Subproblem:
+	K(w, j) is the maximum value achievable when the knapsack's capacity is w, and
+	the burglar chooses item from 1, ..., j.
+	K(w, j) = max{K(w-ws[j], j-1)+vs[j], K(w, j-1)}
+
+	Time complexity: O(nW)
+	'''
+	n = len(ws)
+
+	K = [[0 for j in range(n+1)] for w in range(W+1)]
+	for w in range(1, W+1):
+		for j in range(1, n+1):
+			if ws[j-1] <= w and K[w-ws[j-1]][j-1] + vs[j-1] > K[w][j-1]:
+				K[w][j] = K[w-ws[j-1]][j-1] + vs[j-1]
+			else:
+				K[w][j] = K[w][j-1]
+
+	return K[W][n]
