@@ -87,7 +87,7 @@ def edit_distance(str1, str2):
 # and has to decide what to take. His bag (or “knapsack”) will hold a 
 # total weight of at most W pounds. The burglar has to choose an optimal 
 # combination of loots to maxmize the value while subject to the weight limit.
-def knapsack_with_repition(W, ws, vs):
+def knapsack_with_repetition(W, ws, vs):
 	'''
 	The burglar is allowed to pick an item multiple times.
 
@@ -118,7 +118,7 @@ def knapsack_with_repition(W, ws, vs):
 	return K[W]
 
 
-def knapsack_without_repition(W, ws, vs):
+def knapsack_without_repetition(W, ws, vs):
 	'''
 	The burglar can pick an item no more than once.
 
