@@ -47,6 +47,7 @@ VII. greedy algorithms
 VIII. dynamic programming
 	1. shortest paths in DAG
 	2. edit distance
+	3. knapsack
 
 IX. linear programming
 
