@@ -40,6 +40,12 @@ VI. graph
 VII. greedy algorithms
 	1. greedy algorithms in graph (mst, shortest path)
 	2. Huffman coding
+	3. set cover
 
 VIII. dynamic programming
 	1. shortest paths in DAG
+	2. edit distance
+
+IX. linear programming
+
+X. quantum algorithm
