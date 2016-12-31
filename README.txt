@@ -30,6 +30,8 @@ V. heaps
 
 VI. graph
 	1. Traversal
+		1.1 Breadth first search
+		1.2 Depth first search
 	2. Minimum spanning tree
 		2.1 Prim's algorithm
 		2.2 Kruskal's aglrithm
