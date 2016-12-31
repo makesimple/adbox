@@ -60,13 +60,17 @@ def edit_distance(str1, str2):
 	Find the edit distance of two strings.
 	time complexity 0(mn)
 	'''
-	m = len(str1)
-	n = len(str2)
+	m = len(str1) + 1
+	n = len(str2) + 1
 
 	E = [[0 for j in range(n)] for i in range(m)]
 
 	for i in range(1, m):
+		E[i][0] = i
+	for j in range(1, n):
+		E[0][j] = j
+	for i in range(1, m):
 		for j in range(1, n):
-			E[i][j] = min(E[i-1][j]+1, E[i][j-1]+1, E[i-1][j-1]+1-(str1[i]==str2[j]))
+			E[i][j] = min(E[i-1][j]+1, E[i][j-1]+1, E[i-1][j-1]+1-(str1[i-1]==str2[j-1]))
 
 	return E[m-1][n-1]
