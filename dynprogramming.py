@@ -2,6 +2,7 @@
 from graph import *
 
 # I. shortest paths in DAG
+# DAG, implicitly, lies in the heart of dynamic programming.
 def _topological_sorting_util(v, linear_ord):
 	v.visited = True
 
@@ -74,3 +75,11 @@ def edit_distance(str1, str2):
 			E[i][j] = min(E[i-1][j]+1, E[i][j-1]+1, E[i-1][j-1]+1-(str1[i-1]==str2[j-1]))
 
 	return E[m-1][n-1]
+
+
+
+# III. knapsack
+# During a robbery, a burglar finds much more loot than he had expected 
+# and has to decide what to take. His bag (or “knapsack”) will hold a 
+# total weight of at most W pounds. The burglar has to choose an optimal 
+# combination of loots to maxmize the value while subject to the weight limit.
