@@ -140,3 +140,25 @@ def knapsack_without_repetition(W, ws, vs):
 				K[w][j] = K[w][j-1]
 
 	return K[W][n]
+
+
+
+# IV. chain matrix multiplication
+# Given a sequence of matrices A1, A2, ..., An, where the Ai's
+# dimensions are m0*m1, ..., m_{i-1}*mi,..., m_{n-1}*m_n
+# we want to compute A1 * A2 * ... * An. 
+# Using dynamic programming, we can find the optimal association 
+# such that the time complexity is the smallest
+def chain_matrix_multiplication(dims):
+	'''
+	Return the smallest number of multiplications needed to 
+	multiply matrices of dims
+	@param dims: [m_0, m_1, ..., m_n]
+	'''
+	n = len(dims) - 1 # number of matrices
+	C = [[0 for j in range(n+1)] for i in range(n+1)]
+	for i in range(1, n):
+		for j in range(i+1, n+1):
+			C[i][j] = min([C[i][k] + C[k+1][j] + dims[i-1]*dims[k]*dims[j] for k in range(i, j)])
+
+	return C[1][n]
