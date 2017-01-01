@@ -48,6 +48,7 @@ VIII. dynamic programming
 	1. shortest paths in DAG
 	2. edit distance
 	3. knapsack
+	4. chain matrix multiplication
 
 IX. linear programming
 
